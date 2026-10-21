@@ -51,12 +51,12 @@ public class Graph {
 			}
 			boolean isDirected = (Integer.parseInt(parts[2]) == 1);
 
-			Graph graph = Graph(vertexNumber, isDirected);
+			Graph graph = new Graph(vertexNumber, isDirected);
 			for(int i = 0; i < edgeNumber; i++){
 				String line = reader.readLine();
 				if(line == null){
 					throw new IllegalArgumentException("File format error: expected "
-					+ m + " edges, but file finished after " + i + " edges");
+					+ edgeNumber + " edges, but file finished after " + i + " edges");
 				}
 				String[] edgeParts = line.trim().split("\\s+");
 				if(edgeParts.length < 3){

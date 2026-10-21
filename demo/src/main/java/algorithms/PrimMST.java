@@ -1,7 +1,7 @@
 package algorithms;
 
-import kz.edu.astanait.daa.graph.Edge;
-import kz.edu.astanait.daa.graph.Graph;
+import graph.Edge;
+import graph.Graph;
 
 import java.util.ArrayList;
 import java.util.Comparator;

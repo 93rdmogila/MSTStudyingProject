@@ -18,7 +18,7 @@ public class DSU {
 
 	public int find(int vertex){
 		dsuOps++;
-		if(parent[vertex] = vertex){
+		if(parent[vertex] == vertex){
 			return vertex;
 		}
 		return parent[vertex] = find(parent[vertex]);
@@ -46,7 +46,7 @@ public class DSU {
 	public int getComponentsCount(){
 		return componentsCount;
 	}
-	public int getDsuOps(){
+	public long getDsuOps(){
 		return dsuOps;
 	}
 	public void resetDsuOps(){
