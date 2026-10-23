@@ -40,7 +40,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
             </plugin>
-            <!-- Benchmark: mvn -q compile exec:java   (arguments: -Dexec.args="--runs 5 --max-n 10000") -->
+            <!-- Benchmark: mvn -q compile exec:java (options are passed with -Dexec.args) -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
