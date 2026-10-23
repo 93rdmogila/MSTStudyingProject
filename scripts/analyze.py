@@ -58,15 +58,27 @@ ax.grid(True, which="both", alpha=0.3); ax.legend(fontsize=7, ncol=2)
 fig.tight_layout(); fig.savefig(f"{PLOTS}/1_operations_vs_n.png", dpi=150); plt.close(fig)
 
 # ---- plot 2: scans per edge --------------------------------------------------------------------
-fig, ax = plt.subplots(figsize=(8, 5.5))
+# Several algorithms have identical edgeScans / m at every n (Prim = Kosaraju = 2.0, Kahn = DagShortestPath = 1.0),
+# so their lines lie exactly on top of each other. Prim and Kahn are therefore drawn as a wide translucent line
+# underneath (like plot 1) so that every algorithm stays visible; the legend sits outside the axes.
+UNDERLAY = {"Prim", "Kahn"}
+MARKERS = {"sparse": "o", "dense": "x"}
+fig, ax = plt.subplots(figsize=(9.5, 5.5))
 for algo in ALGOS:
     for density, style in (("sparse", "-"), ("dense", "--")):
         s = series(algo, density)
-        ax.plot(s.n, s.scans_per_edge, style, marker="o", ms=4, color=COLORS[algo], label=f"{algo} ({density})")
-ax.set_xscale("log")
+        under = algo in UNDERLAY
+        ax.plot(s.n, s.scans_per_edge, style, marker=MARKERS[density], ms=7 if under else 4, color=COLORS[algo],
+                label=f"{algo} ({density})", lw=8 if under else 1.8, alpha=0.35 if under else 1.0,
+                zorder=1 if under else 2)
+ax.set_xscale("log"); ax.set_ylim(0, 2.25)
+ax.axhline(2.0, color="gray", lw=0.6, ls=":"); ax.axhline(1.0, color="gray", lw=0.6, ls=":")
+ax.text(1.05e3, 2.06, "Prim = Kosaraju = 2.0 (exactly 2m scans)", fontsize=8, style="italic")
+ax.text(1.05e3, 1.06, "Kahn = DagShortestPath = 1.0 (exactly m scans)", fontsize=8, style="italic")
 ax.set_xlabel("n (vertices)"); ax.set_ylabel("edgeScans / m")
-ax.set_title("Scans per edge: a flat line = linear work")
-ax.grid(True, which="both", alpha=0.3); ax.legend(fontsize=7, ncol=2)
+ax.set_title("Scans per edge: a flat line = linear work (solid/o = sparse, dashed/x = dense)")
+ax.grid(True, which="both", alpha=0.3)
+ax.legend(fontsize=7.5, loc="center left", bbox_to_anchor=(1.01, 0.5))
 fig.tight_layout(); fig.savefig(f"{PLOTS}/2_scans_per_edge.png", dpi=150); plt.close(fig)
 
 # ---- plot 3: share of edges Kruskal examines ----------------------------------------------------
